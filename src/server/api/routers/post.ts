@@ -25,7 +25,7 @@ export const postRouter = createTRPCRouter({
     }),
 
   getLatest: publicProcedure.query(({ ctx }) => {
-    console.log(ctx.auth);
+    console.log(ctx.auth.user);
     return ctx.db.post.findFirst({
       orderBy: { createdAt: "desc" },
     });

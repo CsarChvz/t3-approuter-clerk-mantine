@@ -6,6 +6,11 @@ import { cookies } from "next/headers";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import { ClerkProvider } from "@clerk/nextjs";
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import "@mantine/core/styles.css";
+
+import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,10 +30,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <ColorSchemeScript />
+      </head>
       <body className={`font-sans ${inter.variable}`}>
         <ClerkProvider>
           <TRPCReactProvider cookies={cookies().toString()}>
-            {children}
+            <MantineProvider>{children}</MantineProvider>
           </TRPCReactProvider>
         </ClerkProvider>
       </body>
