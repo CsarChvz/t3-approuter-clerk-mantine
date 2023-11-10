@@ -10,6 +10,11 @@ import { initTRPC } from "@trpc/server";
 import { type NextRequest } from "next/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import {
+  getAuth,
+  type SignedInAuthObject,
+  type SignedOutAuthObject,
+} from "@clerk/nextjs/server";
 
 import { db } from "~/server/db";
 
@@ -23,6 +28,7 @@ import { db } from "~/server/db";
 
 interface CreateContextOptions {
   headers: Headers;
+  auth: SignedInAuthObject | SignedOutAuthObject;
 }
 
 /**
@@ -38,6 +44,7 @@ interface CreateContextOptions {
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     headers: opts.headers,
+    auth: opts.auth,
     db,
   };
 };
@@ -53,6 +60,7 @@ export const createTRPCContext = (opts: { req: NextRequest }) => {
 
   return createInnerTRPCContext({
     headers: opts.req.headers,
+    auth: getAuth(opts.req),
   });
 };
 
@@ -100,3 +108,5 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+
