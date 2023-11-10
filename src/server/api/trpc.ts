@@ -28,7 +28,7 @@ import { db } from "~/server/db";
 
 interface CreateContextOptions {
   headers: Headers;
-  auth: SignedInAuthObject | SignedOutAuthObject;
+  auth?: SignedInAuthObject | SignedOutAuthObject;
 }
 
 /**
@@ -108,5 +108,3 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
-
-
